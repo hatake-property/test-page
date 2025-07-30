@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Bird</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: skyblue;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // ゲームの設定
+    const bird = { x: 50, y: 300, size: 20, gravity: 2, lift: -30, velocity: 0 };
+    const pipes = [];
+    const pipeWidth = 50;
+    const pipeGap = 150;
+    let frame = 0;
+    let score = 0;
+
+    // 鳥を描画
+    function drawBird() {
+      ctx.fillStyle = 'yellow';
+      ctx.beginPath();
+      ctx.arc(bird.x, bird.y, bird.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // パイプを生成
+    function createPipe() {
+      const topHeight = Math.random() * (canvas.height / 2);
+      pipes.push({
+        x: canvas.width,
+        top: topHeight,
+        bottom: topHeight + pipeGap,
+      });
+    }
+
+    // パイプを描画
+    function drawPipes() {
+      ctx.fillStyle = 'green';
+      pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+        ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
+      });
+    }
+
+    // ゲームの更新
+    function updateGame() {
+      bird.velocity += bird.gravity;
+      bird.y += bird.velocity;
+
+      if (frame % 100 === 0) createPipe();
+
+      pipes.forEach(pipe => {
+        pipe.x -= 2;
+
+        // 衝突判定
+        if (
+          bird.x + bird.size > pipe.x &&
+          bird.x - bird.size < pipe.x + pipeWidth &&
+          (bird.y - bird.size < pipe.top || bird.y + bird.size > pipe.bottom)
+        ) {
+          alert(`ゲームオーバー！スコア: ${score}`);
+          document.location.reload();
+        }
+
+        // スコア加算
+        if (pipe.x + pipeWidth === bird.x) score++;
+      });
+
+      // 画面外のパイプを削除
+      pipes.filter(pipe => pipe.x + pipeWidth > 0);
+
+      // 地面に落ちた場合
+      if (bird.y + bird.size > canvas.height) {
+        alert(`ゲームオーバー！スコア: ${score}`);
+        document.location.reload();
+      }
+    }
+
+    // ゲームループ
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBird();
+      drawPipes();
+      updateGame();
+      frame++;
+      requestAnimationFrame(gameLoop);
+    }
+
+    // ジャンプ機能
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') bird.velocity = bird.lift;
+    });
+
+    gameLoop();
+  </script>
+</body>
+</html>
