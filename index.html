@@ -1,108 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flappy Bird</title>
-  <style>
-    canvas {
-      display: block;
-      margin: 0 auto;
-      background: skyblue;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正七角形を描く</title>
 </head>
 <body>
-  <canvas id="gameCanvas" width="400" height="600"></canvas>
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
 
-    // ゲームの設定
-    const bird = { x: 50, y: 300, size: 20, gravity: 2, lift: -30, velocity: 0 };
-    const pipes = [];
-    const pipeWidth = 50;
-    const pipeGap = 150;
-    let frame = 0;
-    let score = 0;
+    <script>
+        // キャンバスのセットアップ
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
 
-    // 鳥を描画
-    function drawBird() {
-      ctx.fillStyle = 'yellow';
-      ctx.beginPath();
-      ctx.arc(bird.x, bird.y, bird.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
+        // 正七角形を描画する関数
+        function drawHeptagon(ctx, centerX, centerY, radius) {
+            const sides = 7; // 正七角形の辺の数
+            const angleStep = (2 * Math.PI) / sides; // 各頂点間の角度
 
-    // パイプを生成
-    function createPipe() {
-      const topHeight = Math.random() * (canvas.height / 2);
-      pipes.push({
-        x: canvas.width,
-        top: topHeight,
-        bottom: topHeight + pipeGap,
-      });
-    }
+            ctx.beginPath();
 
-    // パイプを描画
-    function drawPipes() {
-      ctx.fillStyle = 'green';
-      pipes.forEach(pipe => {
-        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
-        ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
-      });
-    }
+            for (let i = 0; i <= sides; i++) {
+                // 各頂点の座標を計算
+                const x = centerX + radius * Math.cos(i * angleStep - Math.PI / 2); // -Math.PI/2で上から開始
+                const y = centerY + radius * Math.sin(i * angleStep - Math.PI / 2);
 
-    // ゲームの更新
-    function updateGame() {
-      bird.velocity += bird.gravity;
-      bird.y += bird.velocity;
+                if (i === 0) {
+                    ctx.moveTo(x, y); // 最初の頂点に移動
+                } else {
+                    ctx.lineTo(x, y); // 頂点を結ぶ
+                }
+            }
 
-      if (frame % 100 === 0) createPipe();
-
-      pipes.forEach(pipe => {
-        pipe.x -= 2;
-
-        // 衝突判定
-        if (
-          bird.x + bird.size > pipe.x &&
-          bird.x - bird.size < pipe.x + pipeWidth &&
-          (bird.y - bird.size < pipe.top || bird.y + bird.size > pipe.bottom)
-        ) {
-          alert(`ゲームオーバー！スコア: ${score}`);
-          document.location.reload();
+            ctx.closePath(); // 図形を閉じる
+            ctx.stroke(); // 線を描画
         }
 
-        // スコア加算
-        if (pipe.x + pipeWidth === bird.x) score++;
-      });
-
-      // 画面外のパイプを削除
-      pipes.filter(pipe => pipe.x + pipeWidth > 0);
-
-      // 地面に落ちた場合
-      if (bird.y + bird.size > canvas.height) {
-        alert(`ゲームオーバー！スコア: ${score}`);
-        document.location.reload();
-      }
-    }
-
-    // ゲームループ
-    function gameLoop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBird();
-      drawPipes();
-      updateGame();
-      frame++;
-      requestAnimationFrame(gameLoop);
-    }
-
-    // ジャンプ機能
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') bird.velocity = bird.lift;
-    });
-
-    gameLoop();
-  </script>
+        // 正七角形を描画
+        drawHeptagon(ctx, 250, 250, 100); // 中心(250, 250)、半径100
+    </script>
 </body>
 </html>
