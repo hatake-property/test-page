@@ -14,6 +14,8 @@
 		}
 
 		#canvas {
+			height: 100vh;
+			width: 100vw;
 			background-color: black;
 		}
 	</style>
@@ -44,16 +46,10 @@
 		}
 
 		document.addEventListener('load', () => {
-			const canvas = document.getElementById('canvas');
-			canvas.height = window.innerHeight;
-			canvas.width = window.innerWidth;
 			drow();
 		});
 
 		window.addEventListener('resize', () => {
-			const canvas = document.getElementById('canvas');
-			canvas.height = window.innerHeight;
-			canvas.width = window.innerWidth;
 			drow();
 		});
 	</script>
