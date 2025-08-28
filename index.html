@@ -1,43 +1,56 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>正七角形を描く</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bamboo Sword</title>
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+	</style>
 </head>
+
 <body>
-    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+	<canvas id="canvas" background="black"></canvas>
+	<script>
+		function drow() {
+			const canvas = document.getElementById('canvas');
+			const ctx = canvas.getContext('2d');
+			ctx.beginPath();
+		//	正七角形を描画
+			for(let i = 0; i <= 7; i ++) {
+				const radius = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
+				const x = window.innerWidth / 2 + radius * Math.cos(i * 2 * Math.PI / 7 - Math.PI / 2);
+				const y = window.innerHeight / 2 + radius * Math.sin(i * 2 * Math.PI / 7 - Math.PI / 2);
 
-    <script>
-        // キャンバスのセットアップ
-        const canvas = document.getElementById('myCanvas');
-        const ctx = canvas.getContext('2d');
+				if(i === 0) {
+					ctx.moveTo(x, y);
+				} else {
+					ctx.lineTo(x, y);
+				}
+			}
+			ctx.closePath();
+			ctx.fillStyle = 'white';
+			ctx.fill();
+		}
 
-        // 正七角形を描画する関数
-        function drawHeptagon(ctx, centerX, centerY, radius) {
-            const sides = 7; // 正七角形の辺の数
-            const angleStep = (2 * Math.PI) / sides; // 各頂点間の角度
+		document.addEventListener('load', () => {
+			const canvas = document.getElementById('canvas');
+			canvas.height = window.innerHeight;
+			canvas.width = window.innerWidth;
+		});
 
-            ctx.beginPath();
-
-            for (let i = 0; i <= sides; i++) {
-                // 各頂点の座標を計算
-                const x = centerX + radius * Math.cos(i * angleStep - Math.PI / 2); // -Math.PI/2で上から開始
-                const y = centerY + radius * Math.sin(i * angleStep - Math.PI / 2);
-
-                if (i === 0) {
-                    ctx.moveTo(x, y); // 最初の頂点に移動
-                } else {
-                    ctx.lineTo(x, y); // 頂点を結ぶ
-                }
-            }
-
-            ctx.closePath(); // 図形を閉じる
-            ctx.stroke(); // 線を描画
-        }
-
-        // 正七角形を描画
-        drawHeptagon(ctx, 250, 250, 100); // 中心(250, 250)、半径100
-    </script>
+		document.addEventListener('resize', () => {
+			const canvas = document.getElementById('canvas');
+			canvas.height = window.innerHeight;
+			canvas.width = window.innerWidth;
+		});
+	</script>
 </body>
+
 </html>
