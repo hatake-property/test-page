@@ -47,12 +47,14 @@
 			const canvas = document.getElementById('canvas');
 			canvas.height = window.innerHeight;
 			canvas.width = window.innerWidth;
+			drow();
 		});
 
-		document.addEventListener('resize', () => {
+		window.addEventListener('resize', () => {
 			const canvas = document.getElementById('canvas');
 			canvas.height = window.innerHeight;
 			canvas.width = window.innerWidth;
+			drow();
 		});
 	</script>
 </body>
