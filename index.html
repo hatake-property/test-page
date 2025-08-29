@@ -1,74 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="ja">
-
 <head>
-	<meta charset="utf-8">
-	<title>はたけ鉄道</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<style>
-		html,
-		body {
-			background-color: white;
-			margin: 0;
-			overflow: hidden;
-			padding: 0;
-		}
-
-		#canvas {
-			background-color: white;
-		}
-
-		@media (min-aspect-ratio: 1/1) {
-			#foreground {
-				position: absolute;
-				top: 0;
-				left: calc((100vw - 100vh) / 2);
-				height: 100vh;
-				width: 100vh;
-			}
-		}
-
-		@media (max-aspect-ratio: 1/1) {
-			#foreground {
-				position: absolute;
-				top: calc((100vh - 100vw) / 2);
-				left: 100vw;
-				height: 100vw;
-				width: 100vw;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <title>Bamboo Sword</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-	<canvas id="canvas"></canvas>
-
-	<script>
-		const canvas = document.getElementById('canvas');
-		var mode;
-
-		function draw() {
-			const ctx = canvas.getContext('2d');
-
-			switch(mode) {
-				case 'home':
-					ctx.fillStyle = 
-					ctx.fillRect(canvas.width / 5, canvas.width / 5, ctx.measureText('続きから').width, canvas.width / 5);
-					ctx.fillText('続きから', canva.width / 5, canvas.width / 5 * 2);
-					break;
-			}
-		}
-
-		window.addEventListener('load', () => {
-			mode = 'home';
-			drow();
-		});
-
-		window.addEventListener('resize', () => {
-			drow();
-		});
-	</script>
+    <h1>Bamboo Sword ゲーム</h1>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <button onclick="moveLeft()">左 (H)</button>
+        <button onclick="moveRight()">右 (L)</button>
+        <button onclick="fireBall()">発射 (スペース)</button>
+    </div>
+    <script src="script.js"></script>
 </body>
-
 </html>
