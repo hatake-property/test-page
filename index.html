@@ -3,57 +3,69 @@
 <html lang="ja">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Bamboo Sword</title>
+	<meta charset="utf-8">
+	<title>はたけ鉄道</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<style>
-		html, body {
+		html,
+		body {
+			background-color: white;
 			margin: 0;
-			padding: 0;
 			overflow: hidden;
+			padding: 0;
 		}
 
 		#canvas {
-			background-color: black;
+			background-color: white;
+		}
+
+		@media (min-aspect-ratio: 1/1) {
+			#foreground {
+				position: absolute;
+				top: 0;
+				left: calc((100vw - 100vh) / 2);
+				height: 100vh;
+				width: 100vh;
+			}
+		}
+
+		@media (max-aspect-ratio: 1/1) {
+			#foreground {
+				position: absolute;
+				top: calc((100vh - 100vw) / 2);
+				left: 100vw;
+				height: 100vw;
+				width: 100vw;
+			}
 		}
 	</style>
 </head>
 
 <body>
 	<canvas id="canvas"></canvas>
-	<script>
-		function drow() {
-			const canvas = document.getElementById('canvas');
-			const ctx = canvas.getContext('2d');
-			ctx.beginPath();
-		//	正七角形を描画
-			for(let i = 0; i <= 7; i ++) {
-				const radius = window.innerHeight > window.innerWidth ? window.innerWidth / 2 : window.innerHeight / 2;
-				const x = window.innerWidth / 2 + radius * Math.cos(i * 2 * Math.PI / 7 - Math.PI / 2);
-				const y = window.innerHeight / 2 + radius * Math.sin(i * 2 * Math.PI / 7 - Math.PI / 2);
 
-				if(i === 0) {
-					ctx.moveTo(x, y);
-				} else {
-					ctx.lineTo(x, y);
-				}
+	<script>
+		const canvas = document.getElementById('canvas');
+		var mode;
+
+		function draw() {
+			const ctx = canvas.getContext('2d');
+
+			switch(mode) {
+				case 'home':
+					ctx.fillStyle = 
+					ctx.fillRect(canvas.width / 5, canvas.width / 5, ctx.measureText('続きから').width, canvas.width / 5);
+					ctx.fillText('続きから', canva.width / 5, canvas.width / 5 * 2);
+					break;
 			}
-			ctx.closePath();
-			ctx.fillStyle = 'white';
-			ctx.fill();
 		}
 
 		window.addEventListener('load', () => {
-			const canvas = document.getElementById('canvas');
-			canvas.height = window.innerHeight;
-			canvas.width = window.innerWidth;
+			mode = 'home';
 			drow();
 		});
 
 		window.addEventListener('resize', () => {
-			const canvas = document.getElementById('canvas');
-			canvas.height = window.innerHeight;
-			canvas.width = window.innerWidth;
 			drow();
 		});
 	</script>
