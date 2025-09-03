@@ -1,18 +1,1 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Bamboo Sword</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Bamboo Sword ゲーム</h1>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <div class="controls">
-        <button onclick="moveLeft()">左 (H)</button>
-        <button onclick="moveRight()">右 (L)</button>
-        <button onclick="fireBall()">発射 (スペース)</button>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Bough</title><style>html,body{margin:0;overflow:hidden;padding:0;}#canvas{background-color:skyblue;}</style></head><body><canvas id="canvas"></canvas><script>const canvas=document.getElementById('canvas');const ctx=canvas.getContext('2d');let mode;window.onload=()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight};window.onresize=()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight};</script></body></html>
